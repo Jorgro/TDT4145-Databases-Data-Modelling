@@ -20,7 +20,7 @@ SELECT Tittel, Rolle
 FROM film
       NATURAL JOIN skuespillerifilm
       NATURAL JOIN skuespiller
-WHERE skuespiller.Navn = "Morgan Freeman";
+WHERE skuespiller.Navn = 'Morgan Freeman';
 
 -- e)
 SELECT DISTINCT Tittel
