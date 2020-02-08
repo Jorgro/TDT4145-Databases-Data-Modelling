@@ -1,61 +1,59 @@
-USE `TASK1`;
+DROP DATABASE `Task1`;
+CREATE DATABASE `Task1`;
+USE `Task1`;
 
-DROP TABLE Skuespiller;
-DROP TABLE Sjanger;
-DROP TABLE Film;
-DROP TABLE SkuespillerIFilm;
-DROP TABLE SjangerForFilm;
-
-CREATE TABLE Skuespiller 
+CREATE TABLE skuespiller
 (	SkuespillerID INT NOT NULL,
     Navn VARCHAR(30) NOT NULL,
     Fødselsår INT NOT NULL,
     PRIMARY KEY(SkuespillerID)
 );
 
-CREATE TABLE Sjanger 
+CREATE TABLE sjanger
 (
 	SjangerID INT NOT NULL,
-    Navn VARCHAR(15) NOT NULL,
+    Navn VARCHAR(30) NOT NULL,
     Beskrivelse VARCHAR(2000),
     PRIMARY KEY (SjangerID)
 );
 
-CREATE TABLE Film 
+CREATE TABLE regissør
+(
+	RegissørID INT NOT NULL,
+    Navn VARCHAR(30) NOT NULL,
+    PRIMARY KEY (RegissørID)
+);
+
+CREATE TABLE film
 (
 	FilmID INT NOT NULL,
-    Tittel VARCHAR(15) NOT NULL,
+    Tittel VARCHAR(30) NOT NULL,
     Produksjonsår INT NOT NULL,
+    RegissørID INT NOT NULL,
+    FOREIGN KEY (RegissørID) REFERENCES regissør(RegissørID),
     PRIMARY KEY (FilmID)
 );
 
-CREATE TABLE SjangerForFilm
+CREATE TABLE sjangerforfilm
 (
-	FilmID INT NOT NULL,
-    SjangerID INT NOT NULL,
-    FOREIGN KEY (SjangerID) REFERENCES Sjanger(SjangerID),
-    FOREIGN KEY (FilmID) REFERENCES Film(FilmID)
+	SjangerID INT NOT NULL,
+    FilmID INT NOT NULL,
+    FOREIGN KEY (SjangerID) REFERENCES sjanger(SjangerID),
+    FOREIGN KEY (FilmID) REFERENCES film(FilmID)
 		ON DELETE CASCADE
         ON UPDATE CASCADE,
     CONSTRAINT SjangerFF_PK PRIMARY KEY (FilmID, SjangerID)
 );
 
-CREATE TABLE Regissør
-(
-	RegissørID INT NOT NULL,
-    Navn VARCHAR(15) NOT NULL,
-    PRIMARY KEY (RegissørID)
-);
-
-CREATE TABLE SkuespillerIFilm
+CREATE TABLE skuespillerifilm
 (
 	FilmID INT NOT NULL,
     SkuespillerID INT NOT NULL,
-    Rolle VARCHAR(9),
-    FOREIGN KEY (FilmID) REFERENCES Film(FilmID)
+    Rolle VARCHAR(30),
+    FOREIGN KEY (FilmID) REFERENCES film(FilmID)
     		ON DELETE CASCADE
 			ON UPDATE CASCADE,
-    FOREIGN KEY (SkuespillerID) REFERENCES Skuespiller(SkuespillerID),
-    Constraint SkuespillerIF_PK primary key (FilmID, SkuespillerID)
+    FOREIGN KEY (SkuespillerID) REFERENCES skuespiller(SkuespillerID),
+    CONSTRAINT SkuespillerIF_PK PRIMARY KEY (FilmID, SkuespillerID)
 );
 
