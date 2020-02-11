@@ -42,7 +42,7 @@ FROM sjanger
 GROUP BY SjangerID;
 
 -- h)
-SELECT *
+SELECT Navn
 FROM skuespiller as S
 WHERE S.SkuespillerID IN
       (
