@@ -31,12 +31,12 @@ FROM skuespillerifilm
 WHERE skuespiller.navn = regissør.Navn;
 
 -- f)
-SELECT COUNT(*)
+SELECT COUNT(*) AS ANTALL
 FROM skuespiller
 WHERE skuespiller.Navn LIKE 'C%';
 
 -- g)
-SELECT sjanger.Navn, Count(FilmID) as antalllFilmer
+SELECT sjanger.Navn, Count(FilmID) as antallFilmer
 FROM sjanger
     NATURAL JOIN sjangerforfilm
 GROUP BY SjangerID;
