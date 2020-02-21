@@ -32,6 +32,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        DBConnector conn = new DBConnector();
+        conn.connect();
+        System.out.println("SUCCESS!");
         launch();
     }
 
