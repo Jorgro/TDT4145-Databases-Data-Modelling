@@ -18,12 +18,13 @@ public class DBConnector {
         }
 
         Properties p = new Properties();
-        p.put("user", "root");
-        p.put("password", "Nightblue3");
+        p.put("user", "larswwa_tdt4145");
+        p.put("password", "}t98!\\\\hz");
+        System.out.println("}t98!\\\\hz");
 
         try {
-            //            conn = DriverManager.getConnection("jdbc:mysql://mysql.ansatt.ntnu.no/sveinbra_ektdb?autoReconnect=true&useSSL=false",p);
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root",p);
+            conn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no/larswwa_tdt4145?autoReconnect=true&useSSL=false",p);
+            //conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root",p);
         } catch (Exception e)
         {
             throw new RuntimeException("Unable to connect", e);
