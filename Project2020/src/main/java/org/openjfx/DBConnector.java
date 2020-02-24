@@ -19,8 +19,7 @@ public class DBConnector {
 
         Properties p = new Properties();
         p.put("user", "larswwa_tdt4145");
-        p.put("password", "}t98!\\\\hz");
-        System.out.println("}t98!\\\\hz");
+        p.put("password", "xIy8mkm1");
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no/larswwa_tdt4145?autoReconnect=true&useSSL=false",p);
@@ -29,5 +28,10 @@ public class DBConnector {
         {
             throw new RuntimeException("Unable to connect", e);
         }
+    }
+
+    public static void main(String[] args){
+        DBConnector db1 = new DBConnector();
+        db1.connect();
     }
 }
