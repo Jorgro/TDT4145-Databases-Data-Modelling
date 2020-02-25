@@ -49,13 +49,14 @@ CREATE TABLE score
 
 CREATE TABLE personTitle
 (
+    PersonTitleID INT NOT NULL,
     TitleID INT NOT NULL,
     PersonID INT NOT NULL,
     Role VARCHAR(64),
     Actor BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (PersonTitleID),
     FOREIGN KEY (TitleID) REFERENCES title (TitleID),
-    FOREIGN KEY (PersonID) REFERENCES person (PersonID),
-    PRIMARY KEY (TitleID, PersonID)
+    FOREIGN KEY (PersonID) REFERENCES person (PersonID)
 );
 
 CREATE TABLE companyTitle
