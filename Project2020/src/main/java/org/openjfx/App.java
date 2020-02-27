@@ -36,7 +36,7 @@ public class App extends Application {
         text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 150));
 
         //setting the position of the text
-        text.setX(300);
+        text.setX(0);
         text.setY(200);
         text.setTextAlignment(TextAlignment.CENTER);
 
@@ -85,7 +85,7 @@ public class App extends Application {
         TextField textField = new TextField();
         textField.setMaxWidth(200);
         textField.setMaxHeight(20);
-        textField.setLayoutX(width/2);
+        textField.setLayoutX(0);
         textField.setLayoutY(height/2);
 
         root.getChildren().add( mediaView);
@@ -115,8 +115,8 @@ public class App extends Application {
     //}
 
     public static void main(String[] args) {
-        DBConnector conn = new DBConnector();
-        conn.connect();
+        // DBConnector conn = new DBConnector();
+        // conn.connect();
         System.out.println("SUCCESS!");
         launch();
     }

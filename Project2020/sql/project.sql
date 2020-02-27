@@ -12,7 +12,7 @@ CREATE TABLE person
 CREATE TABLE title
 (
     TitleID INT NOT NULL,
-    Title VARCHAR(32),
+    Name VARCHAR(32),
     Content VARCHAR(1024),
     Duration INT,
     PublishYear INT,
@@ -38,12 +38,16 @@ CREATE TABLE category
 CREATE TABLE user
 (
     UserID INT NOT NULL,
+    Username VARCHAR(32),
+    Password VARCHAR(100),
+    Email VARCHAR(100),
     PRIMARY KEY (UserID)
 );
 
 CREATE TABLE score
 (
     ScoreID INT NOT NULL,
+    Title VARCHAR(32),
     PRIMARY KEY (ScoreID)
 );
 
@@ -82,6 +86,8 @@ CREATE TABLE reviewOfTitle
 (
     TitleID INT NOT NULL,
     UserID INT NOT NULL,
+    Review VARCHAR(10000),
+    Rating INT NOT NULL,
     FOREIGN KEY (TitleID) REFERENCES title (TitleID),
     FOREIGN KEY (UserID) REFERENCES user (UserID),
     PRIMARY KEY (TitleID, UserID)
