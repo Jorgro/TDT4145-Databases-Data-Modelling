@@ -25,6 +25,7 @@ CREATE TABLE company
     CompanyID INT NOT NULL,
     URL VARCHAR(64),
     Country VARCHAR(32),
+    Name VARCHAR (32),
     PRIMARY KEY (CompanyID)
 );
 
