@@ -66,6 +66,7 @@ CREATE TABLE personTitle
 
 CREATE TABLE companyTitle
 (
+    CompanyTitleID INT NOT NULL,
     TitleID INT NOT NULL,
     CompanyID INT NOT NULL,
     Role VARCHAR(64),
@@ -113,3 +114,17 @@ CREATE TABLE episodeInSeries
     FOREIGN KEY (SeriesID) REFERENCES title (TitleID),
     PRIMARY KEY (EpisodeID, SeriesID)
 );
+
+# Trenger rolle i musikk table
+
+CREATE TABLE roleInScore
+(
+    roleInScoreID INT NOT NULL,
+    PersonID INT NOT NULL,
+    ScoreID INT NOT NULL,
+    Role VARCHAR(32),
+    PRIMARY KEY (roleInScoreID),
+    FOREIGN KEY (PersonID) REFERENCES person (PersonID),
+    FOREIGN KEY (ScoreID) REFERENCES score (ScoreID)
+);
+
