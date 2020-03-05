@@ -4,7 +4,8 @@ use larswwa_tdt4145;
 INSERT INTO title (TitleID, Name, Content, Duration, PublishYear, LaunchYear) VALUES
                                                                                      (1, 'Game of Thrones', 'TV show based on George RR Martins ASOIAF', null, 2011, 2011),
                                                                                      (2, 'Winter is coming', 'S1E1 GOT, Bran gets pushed out of a window', 1, 2011, 2011),
-                                                                                     (3, 'Star Wars episode IV: A new hope', 'Luke, Darth Vader, Yoda, Obi Wan, Pew pew death star boom', 2, 1977, 1977);
+                                                                                     (3, 'Star Wars episode IV: A new hope', 'Luke, Darth Vader, Yoda, Obi Wan, Pew pew death star boom', 2, 1977, 1977),
+                                                                                     (4, 'The Battle of the Bastards', 'Jon and Ramsay', 1, 2017, 2017);
 
 
 
@@ -51,12 +52,14 @@ INSERT INTO personTitle (PersonTitleID, TitleID, PersonID, Role, Actor) VALUES
 
 INSERT INTO companyTitle (CompanyTitleID, TitleID, CompanyID, Role) VALUES
                                                                            (1, 1, 2, 'Producer'),
+                                                                           (1, 4, 2, 'Producer'),
                                                                            (2, 3, 1, 'Jealous');
 
 INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES
                                                          (1, 1),
                                                          (2, 4),
-                                                         (3, 5);
+                                                         (3, 5),
+                                                         (4, 1);
 
 INSERT INTO reviewOfTitle (TitleID, UserID, Review, Rating) VALUES
                                                                    (2, 2, 'Such show. Wow.', 5),

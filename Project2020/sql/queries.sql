@@ -13,8 +13,13 @@ SELECT DISTINCT t.Name, p.Name FROM title t  JOIN personTitle pT ON t.TitleID = 
 
 # Finne hvilke filmselskap som lager flest filmer innen hver sjanger
 
+
+
 # Finne antall i én sjanger for et selskap
-#Not finished
-SELECT * FROM categoryInTitle JOIN companyTitle cT on categoryInTitle.TitleID = cT.TitleID
-                    WHERE (cT.CompanyID IN (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
-                                           WHERE c.Name = 'Netflix') )  ;
+# Crazy function
+SELECT count(*) FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
+                    WHERE (cT.CompanyID IN
+                    (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
+                    WHERE c.Name = 'HBO') ) AND CategoryID  IN
+                    (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
+                    WHERE cat.Name = 'Drama');
