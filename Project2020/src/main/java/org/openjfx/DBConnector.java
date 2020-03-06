@@ -73,14 +73,14 @@ public class DBConnector {
     public List<String> getMoviesByActorID(int actorID) throws SQLException {
         List<String> result = new ArrayList<>();
         PreparedStatement prep = conn.prepareStatement(
-                "SELECT DISTINCT Title " +
+                "SELECT DISTINCT t.Name " +
                     "FROM personTitle INNER JOIN title t on personTitle.TitleID = t.TitleID " +
                     "WHERE Actor = TRUE AND PersonID = ?"
         );
         prep.setInt(1, actorID);
         ResultSet rs = prep.executeQuery();
         while (rs.next()){
-            result.add(rs.getString("Title"));
+            result.add(rs.getString("Name"));
         }
         return result;
     }
@@ -88,15 +88,15 @@ public class DBConnector {
     public Map<String, List<String>> getMoviesByActorName(String name) throws SQLException{
         Map<String, List<String>> result = new HashMap<>();
         PreparedStatement prep = conn.prepareStatement(
-                    "SELECT DISTINCT Title, Name " +
-                        "FROM personTitle NATURAL JOIN title NATURAL JOIN person " +
+                    "SELECT DISTINCT t.Name as TitleName, p.Name as ActorName " +
+                        "FROM personTitle NATURAL JOIN title t NATURAL JOIN person p " +
                         "WHERE Actor = TRUE AND Name LIKE ?"
         );
         prep.setString(1, "%" + name + "%");
         ResultSet rs = prep.executeQuery();
         while (rs.next()){
-            String title = rs.getString("Title");
-            String actor = rs.getString("Name");
+            String title = rs.getString("TitleName");
+            String actor = rs.getString("ActorName");
             if (result.containsKey(actor)) {
                 result.get(actor).add(title);
             } else {
