@@ -88,9 +88,9 @@ public class DBConnector {
     public Map<String, List<String>> getMoviesByActorName(String name) throws SQLException{
         Map<String, List<String>> result = new HashMap<>();
         PreparedStatement prep = conn.prepareStatement(
-                    "SELECT DISTINCT t.Name as TitleName, p.Name as ActorName " +
-                        "FROM personTitle NATURAL JOIN title t NATURAL JOIN person p " +
-                        "WHERE Actor = TRUE AND Name LIKE ?"
+                    "SELECT t.Name as TitleName, p.Name as ActorName " +
+                        "FROM personTitle pt NATURAL JOIN title t INNER JOIN person p ON p.PersonID = pt.PersonID " +
+                        "WHERE Actor = TRUE AND p.Name LIKE ?"
         );
         prep.setString(1, "%" + name + "%");
         ResultSet rs = prep.executeQuery();
@@ -107,13 +107,25 @@ public class DBConnector {
         return result;
     }
 
+    public int insertCategory(String name) throws SQLException{
+        PreparedStatement prep = conn.prepareStatement("INSERT INTO category (Name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, name);
+        int updatedColumns = prep.executeUpdate();
+        ResultSet rs = prep.getGeneratedKeys();
+        if (rs.next()){
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
     public static void main(String[] args){
         DBConnector db1 = new DBConnector();
         db1.connect();
         try {
-            System.out.println(db1.getActorRolesByName("Lars"));
+            System.out.println(db1.getActorRolesByName("Kit"));
             System.out.println(db1.getMoviesByActorID(1));
-            System.out.println(db1.getMoviesByActorName("Lars"));
+            System.out.println(db1.getMoviesByActorName("Kris"));
+            System.out.println(db1.insertCategory("Hello world"));
         } catch (Exception e){
             throw new RuntimeException(e);
         }

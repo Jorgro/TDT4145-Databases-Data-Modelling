@@ -2,7 +2,7 @@ USE `larswwa_tdt4145`;
 
 CREATE TABLE person
 (
-    PersonID INT NOT NULL,
+    PersonID INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(32) NOT NULL,
     Birthyear INT,
     Country VARCHAR(32),
@@ -11,7 +11,7 @@ CREATE TABLE person
 
 CREATE TABLE title
 (
-    TitleID INT NOT NULL,
+    TitleID INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(32),
     Content VARCHAR(1024),
     Duration INT,
@@ -22,7 +22,7 @@ CREATE TABLE title
 
 CREATE TABLE company
 (
-    CompanyID INT NOT NULL,
+    CompanyID INT NOT NULL AUTO_INCREMENT,
     URL VARCHAR(64),
     Country VARCHAR(32),
     Name VARCHAR (32),
@@ -31,14 +31,14 @@ CREATE TABLE company
 
 CREATE TABLE category
 (
-    CategoryID INT NOT NULL,
+    CategoryID INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(32),
     PRIMARY KEY (CategoryID)
 );
 
 CREATE TABLE user
 (
-    UserID INT NOT NULL,
+    UserID INT NOT NULL AUTO_INCREMENT,
     Username VARCHAR(32),
     Password VARCHAR(100),
     Email VARCHAR(100),
@@ -47,14 +47,14 @@ CREATE TABLE user
 
 CREATE TABLE score
 (
-    ScoreID INT NOT NULL,
+    ScoreID INT NOT NULL AUTO_INCREMENT,
     Title VARCHAR(32),
     PRIMARY KEY (ScoreID)
 );
 
 CREATE TABLE personTitle
 (
-    PersonTitleID INT NOT NULL,
+    PersonTitleID INT NOT NULL AUTO_INCREMENT,
     TitleID INT NOT NULL,
     PersonID INT NOT NULL,
     Role VARCHAR(64),
@@ -70,7 +70,7 @@ CREATE TABLE personTitle
 
 CREATE TABLE companyTitle
 (
-    CompanyTitleID INT NOT NULL,
+    CompanyTitleID INT NOT NULL AUTO_INCREMENT,
     TitleID INT NOT NULL,
     CompanyID INT NOT NULL,
     Role VARCHAR(64),
@@ -143,7 +143,7 @@ CREATE TABLE episodeInSeries
 
 CREATE TABLE roleInScore
 (
-    roleInScoreID INT NOT NULL,
+    roleInScoreID INT NOT NULL AUTO_INCREMENT,
     PersonID INT NOT NULL,
     ScoreID INT NOT NULL,
     Role VARCHAR(32),

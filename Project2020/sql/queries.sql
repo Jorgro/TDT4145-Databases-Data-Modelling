@@ -6,10 +6,10 @@ SELECT Role, Name FROM (personTitle NATURAL JOIN person) WHERE Name = 'Kit Harin
 
 # Finne hvilke filmer som en gitt skuespiller opptrer i.
 SELECT DISTINCT t.Name FROM personTitle INNER JOIN title t on personTitle.TitleID = t.TitleID  # with ID
-                    WHERE Actor = TRUE AND PersonID = 3;
+WHERE Actor = TRUE AND PersonID = 3;
 
 SELECT DISTINCT t.Name, p.Name FROM title t  JOIN personTitle pT ON t.TitleID = pT.TitleID JOIN person p ON pT.PersonID = p.PersonID
-                WHERE Actor = TRUE AND p.Name = 'Kristoffer Hivju'; # With name
+WHERE Actor = TRUE AND p.Name = 'Kristoffer Hivju'; # With name
 
 # Finne hvilke filmselskap som lager flest filmer innen hver sjanger
 
@@ -17,9 +17,9 @@ SELECT DISTINCT t.Name, p.Name FROM title t  JOIN personTitle pT ON t.TitleID = 
 
 # Finne antall i én sjanger for et selskap
 # Crazy function
-SELECT count(*) FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
-                    WHERE (cT.CompanyID IN
-                    (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
-                    WHERE c.Name = 'HBO') ) AND CategoryID  IN
-                    (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
-                    WHERE cat.Name = 'Drama');
+SELECT count(*),  FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
+WHERE (cT.CompanyID IN
+       (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
+        WHERE c.Name = 'HBO') ) AND CategoryID  IN
+                                    (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
+                                     WHERE cat.Name = 'Drama');
