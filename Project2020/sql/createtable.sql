@@ -25,6 +25,7 @@ CREATE TABLE company
     CompanyID INT NOT NULL,
     URL VARCHAR(64),
     Country VARCHAR(32),
+    Name VARCHAR (32),
     PRIMARY KEY (CompanyID)
 );
 
@@ -137,3 +138,17 @@ CREATE TABLE episodeInSeries
                                     ON UPDATE CASCADE,
     PRIMARY KEY (EpisodeID, SeriesID)
 );
+
+# Trenger rolle i musikk table
+
+CREATE TABLE roleInScore
+(
+    roleInScoreID INT NOT NULL,
+    PersonID INT NOT NULL,
+    ScoreID INT NOT NULL,
+    Role VARCHAR(32),
+    PRIMARY KEY (roleInScoreID),
+    FOREIGN KEY (PersonID) REFERENCES person (PersonID),
+    FOREIGN KEY (ScoreID) REFERENCES score (ScoreID)
+);
+
