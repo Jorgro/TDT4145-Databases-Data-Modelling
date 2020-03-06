@@ -32,7 +32,7 @@ CREATE TABLE company
 CREATE TABLE category
 (
     CategoryID INT NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(32),
+    Name VARCHAR(32) UNIQUE,
     PRIMARY KEY (CategoryID)
 );
 

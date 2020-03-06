@@ -25,11 +25,11 @@ public class DBConnector {
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no/larswwa_tdt4145?autoReconnect=true&useSSL=false",p);
-            PreparedStatement prep = conn.prepareStatement("SELECT * FROM person");
-            ResultSet rs = prep.executeQuery();
-            while (rs.next()) {
-                System.out.println(rs.getString("Name"));
-            }
+//            PreparedStatement prep = conn.prepareStatement("SELECT * FROM person");
+//            ResultSet rs = prep.executeQuery();
+//            while (rs.next()) {
+//                System.out.println(rs.getString("Name"));
+//            }
             //conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root",p);
         } catch (Exception e)
         {
@@ -118,14 +118,46 @@ public class DBConnector {
         return -1;
     }
 
+
+    public int insertMovie(String name, String content, int duration, int publishYear, int launchYear) throws SQLException{
+
+        PreparedStatement prep = conn.prepareStatement(
+                "INSERT INTO title (Name, Content, Duration, PublishYear, LaunchYear) VALUES (?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, name);
+        prep.setString(2, content);
+        prep.setInt(3, duration);
+        prep.setInt(4, publishYear);
+        prep.setInt(5, launchYear);
+        int updatedColums = prep.executeUpdate();
+        ResultSet rs = prep.getGeneratedKeys();
+
+        if (rs.next()){
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+
+    public void linkActorTitle(int TitleID, int ActorID, String Role) throws SQLException{
+        PreparedStatement prep = conn.prepareStatement(
+                "INSERT INTO personTitle (TitleID, PersonID, Role, Actor) VALUES (?,?,?,?);");
+        prep.setInt(1, TitleID);
+        prep.setInt(2, ActorID);
+        prep.setString(3, Role);
+        prep.setBoolean(4, true);
+        prep.executeUpdate();
+    }
+
     public static void main(String[] args){
         DBConnector db1 = new DBConnector();
         db1.connect();
         try {
             System.out.println(db1.getActorRolesByName("Kit"));
-            System.out.println(db1.getMoviesByActorID(1));
-            System.out.println(db1.getMoviesByActorName("Kris"));
-            System.out.println(db1.insertCategory("Hello world"));
+//            System.out.println(db1.getMoviesByActorID(1));
+//            System.out.println(db1.getMoviesByActorName("Kris"));
+//            System.out.println(db1.insertCategory("Hello world"));
+//            System.out.println(db1.insertMovie("The Kingsroad", "S1E2, walk on road", 1, 2011, 2011));
+//            db1.linkActorTitle(5, 1, "Jon Snow");
         } catch (Exception e){
             throw new RuntimeException(e);
         }
