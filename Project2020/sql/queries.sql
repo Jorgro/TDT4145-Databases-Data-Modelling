@@ -12,7 +12,7 @@ SELECT DISTINCT t.Name, p.Name FROM title t  JOIN personTitle pT ON t.TitleID = 
 WHERE Actor = TRUE AND p.Name = 'Kristoffer Hivju'; # With name
 
 # Finne hvilke filmselskap som lager flest filmer innen hver sjanger
-SELECT cat.CategoryID, cat.name, c.CompanyID, c.name, count(*) AS count FROM company AS c JOIN companyTitle ct ON c.CompanyID = ct.CompanyID JOIN title t ON ct.TitleID = t.TitleID JOIN categoryInTitle cit ON cit.TitleID = t.TitleID
+SELECT cat.CategoryID, cat.name AS CategoryName, c.CompanyID, c.name AS CompanyName, count(*) AS count FROM company AS c JOIN companyTitle ct ON c.CompanyID = ct.CompanyID JOIN title t ON ct.TitleID = t.TitleID JOIN categoryInTitle cit ON cit.TitleID = t.TitleID
 JOIN category cat ON cit.CategoryID = cat.CategoryID
 GROUP BY cat.CategoryID, c.CompanyID
 HAVING count >= ALL (
