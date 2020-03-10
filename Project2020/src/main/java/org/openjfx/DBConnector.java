@@ -51,14 +51,14 @@ public class DBConnector {
 
 
 
-    public List<String> getMoviesByActorID(int actorID) throws SQLException {
+    public List<String> getMoviesByActorID(int personID) throws SQLException {
         List<String> result = new ArrayList<>();
         PreparedStatement prep = conn.prepareStatement(
                 "SELECT DISTINCT t.Name " +
                     "FROM personTitle INNER JOIN title t on personTitle.TitleID = t.TitleID " +
                     "WHERE Actor = TRUE AND PersonID = ?"
         );
-        prep.setInt(1, actorID);
+        prep.setInt(1, personID);
         ResultSet rs = prep.executeQuery();
         while (rs.next()){
             result.add(rs.getString("Name"));
