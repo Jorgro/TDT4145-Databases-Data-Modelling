@@ -43,8 +43,8 @@ INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (12, 1, 'Producer');
 
 # Finne antall i én sjanger for et selskap
 # Crazy function
-WHERE (cT.CompanyID IN
-       (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
-        WHERE c.Name = 'HBO') ) AND CategoryID  IN
-                                    (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
-                                     WHERE cat.Name = 'Drama');
+# WHERE (cT.CompanyID IN
+#        (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
+#         WHERE c.Name = 'HBO') ) AND CategoryID  IN
+#                                     (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
+#                                      WHERE cat.Name = 'Drama');
