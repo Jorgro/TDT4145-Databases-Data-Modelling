@@ -17,7 +17,7 @@ WHERE Actor = TRUE AND p.Name = 'Kristoffer Hivju'; # With name
 
 # Finne antall i én sjanger for et selskap
 # Crazy function
-SELECT count(*),  FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
+SELECT count(*)  FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
 WHERE (cT.CompanyID IN
        (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
         WHERE c.Name = 'HBO') ) AND CategoryID  IN
