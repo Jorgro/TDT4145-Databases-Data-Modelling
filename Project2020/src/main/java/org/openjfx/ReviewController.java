@@ -1,27 +1,17 @@
 package org.openjfx;
 
-import javax.sound.midi.Soundbank;
 import java.sql.*;
+
+import java.util.Scanner;
 
 public class ReviewController extends DBConnector {
 
     private PreparedStatement reviewStatement;
 
-    public void startReviewOfTitle() {
-
-        try {
-            reviewStatement = conn.prepareStatement("INSERT INTO reviewOfTitle (TitleID, UserID, Review, Rating) VALUES ( ?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-        } catch (Exception e) {
-            System.out.println("db error during prepare of insert into reviewOfTitle");
-        }
-
-
-    }
+    public Scanner scanner = new Scanner(System.in);
 
     public void alterReview(int titleID, int userID, String review, int rating) {
         try {
-
-
             PreparedStatement alter = conn.prepareStatement("UPDATE reviewOfTitle SET Review = ? WHERE TitleID = ? AND UserID = ?");
             alter.setString(1, review);
             alter.setInt(2, titleID);
@@ -41,6 +31,11 @@ public class ReviewController extends DBConnector {
     }
     public int updateReview(int titleID, int userID, String review, int rating ){
         try {
+            reviewStatement = conn.prepareStatement("INSERT INTO reviewOfTitle (TitleID, UserID, Review, Rating) VALUES ( ?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+        } catch (Exception e) {
+            System.out.println("db error during prepare of insert into reviewOfTitle");
+        }
+        try {
             reviewStatement.setInt(1, titleID);
             reviewStatement.setInt(2, userID);
             reviewStatement.setString(3, review);
@@ -52,47 +47,113 @@ public class ReviewController extends DBConnector {
 
         }
         catch (SQLException e){
-
             //e.printStackTrace();
-
             this.alterReview(titleID, userID, review, rating);
-
-//            catch (SQLException S){
-//                System.out.println("Error during insert");
-//
-//            }
-
         }
         return -1;
 
     }
-
-    public int getUserId(String username) throws SQLException {
-        PreparedStatement userStatement = conn.prepareStatement("SELECT UserID FROM user WHERE ? = Username");
-        userStatement.setString(1, username);
-        ResultSet rs = userStatement.executeQuery();
-        if (rs.next()){
-            return rs.getInt("UserID");
+    private boolean testInteger(String s, int max){
+        try {
+            int i = Integer.parseInt(s);
+            return i <= max && i > 0;
         }
-        else
+        catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    public int getUserId(String username)  {
+        try {
+
+
+            PreparedStatement userStatement = conn.prepareStatement("SELECT UserID FROM user WHERE ? = Username");
+            userStatement.setString(1, username);
+            ResultSet rs = userStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("UserID");
+            }
+        }
+        catch (SQLException e){
             return -1;
+        }
+
+        return -1;
 
     }
 
+    private int printTitles() throws SQLException{
+        PreparedStatement titleStatement = conn.prepareStatement("SELECT TitleID, Name, PublishYear FROM title");
+        ResultSet rs = titleStatement.executeQuery();
+        int max = 0;
+        while (rs.next()){
+            System.out.println(rs.getInt(1)+ ": " + rs.getString(2) + ", " + rs.getInt(3));
+            max = rs.getRow();
+        }
+        return max;
+
+    }
+
+    public void registerReview() throws SQLException{
+        System.out.println("Please enter username: ");
+        String s = scanner.nextLine();
+
+        int userID = getUserId(s);
+        while (userID < 0){
+            System.out.println("No such user exist, please try again: ");
+            s = scanner.nextLine().strip();
+            userID = getUserId(s);
+        }
+
+        int max = printTitles();
+        System.out.println("These are titles in the database. Please enter the number of the one you would like to review: ");
+
+        s = scanner.nextLine();
+        while (!(testInteger(s, max))){
+            System.out.println("No title with this number, please try again: ");
+            s = scanner.nextLine();
+        }
+        int titleID = Integer.parseInt(s);
+
+        System.out.println("Please enter your review: ");
+        String review = scanner.nextLine();
+
+        System.out.println("Please enter a rating from 1 to 5: ");
+        s = scanner.nextLine();
+        while (!(testInteger(s, 5))) {
+            System.out.println("Must be an integer between 1 and 5. Try again: ");
+            s = scanner.nextLine();
+        }
+        int rating = Integer.parseInt(s);
+
+
+        updateReview(titleID, userID, review, rating);
+
+
+
+    }
+
+
+
+
+
     public static void main(String[] args) {
+
         ReviewController c = new ReviewController();
         c.connect();
         try {
-            int userId = c.getUserId("josteiht");
-            System.out.println(userId);
-            c.startReviewOfTitle();
-
-
-            c.updateReview(4, userId, "Very nice", 9 );
+            c.registerReview();
         }
         catch (SQLException e){
-            e.printStackTrace();
+            System.out.println("There is a problem somewhere with SQL");
         }
+
+        //int userId = c.getUserId("josteiht");
+        //System.out.println(userId);
+
+
+
+        //c.updateReview(5, userId, "Very nice", 9 );
 
     }
 }
