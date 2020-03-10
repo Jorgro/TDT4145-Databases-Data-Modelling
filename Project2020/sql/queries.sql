@@ -15,10 +15,11 @@ WHERE Actor = TRUE AND p.Name = 'Kristoffer Hivju'; # With name
 SELECT cat.CategoryID, cat.name, c.CompanyID, c.name, count(*) AS count FROM company AS c JOIN companyTitle ct ON c.CompanyID = ct.CompanyID JOIN title t ON ct.TitleID = t.TitleID JOIN categoryInTitle cit ON cit.TitleID = t.TitleID
 JOIN category cat ON cit.CategoryID = cat.CategoryID
 GROUP BY cat.CategoryID, c.CompanyID
-HAVING count > ALL (
+HAVING count >= ALL (
 SELECT count(*) as count FROM company c2 JOIN companyTitle ct2 ON c2.CompanyID = ct2.CompanyID JOIN title t2 ON ct2.TitleID = t2.TitleID JOIN categoryInTitle cit2 ON cit2.TitleID = t2.TitleID
     JOIN category cat2 ON cit2.CategoryID = cat2.CategoryID
-WHERE c2.CompanyID != c.CompanyID AND cat2.CategoryID = cat.CategoryID
+WHERE c2.CompanyID != c.CompanyID AND cat2.CategoryID = cat.CategoryID AND t2.TitleID NOT IN (
+SELECT SeriesID FROM episodeInSeries )
 GROUP BY cat2.CategoryID, c2.CompanyID
 );
 
