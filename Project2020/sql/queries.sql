@@ -23,22 +23,22 @@ SELECT SeriesID FROM episodeInSeries )
 GROUP BY cat2.CategoryID, c2.CompanyID
 );
 
-SELECT * FROM title;
+SELECT * FROM `categoryInTitle`;
 
 INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (6, 1, 'Producer');
 INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (2, 1, 'Producer');
 INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (5, 1, 'Producer');
 INSERT INTO title (Name, Content, Duration, PublishYear, LaunchYear) VALUES ('Drama', 'Drame time', 1, 2011, 2011);
-INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (7, 1);
-INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (7, 1, 'Producer');
+INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (16, 1);
+INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (16, 3, 'Producer');
 
 INSERT INTO title (Name, Content, Duration, PublishYear, LaunchYear) VALUES ('Drama2', 'Drame time2', 1, 2011, 2011);
-INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (8, 1);
-INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (8, 1, 'Producer');
+INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (11, 1);
+INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (11, 1, 'Producer');
 
 INSERT INTO title (Name, Content, Duration, PublishYear, LaunchYear) VALUES ('Drama3', 'Drame time3', 1, 2011, 2011);
-INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (9, 1);
-INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (9, 1, 'Producer');
+INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (12, 1);
+INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (12, 1, 'Producer');
 
 
 # Finne antall i én sjanger for et selskap
