@@ -3,10 +3,7 @@ package org.openjfx;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ActorRoleCtrl extends DBConnector {
 
@@ -39,6 +36,18 @@ public class ActorRoleCtrl extends DBConnector {
                 result.put(actor, new ArrayList<>());
                 result.get(actor).add(role);
             }
+        }
+        return result;
+    }
+
+    public Map<Integer, List<String>> getActorByName(String name) throws SQLException{
+        Map<Integer, List<String>> result = new HashMap<>();
+        PreparedStatement prep = conn.prepareStatement("SELECT * FROM person p WHERE p.Name LIKE ?");
+        name = "%" + name + "%";
+        prep.setString(1, name);
+        ResultSet rs = prep.executeQuery();
+        while (rs.next()){
+            result.put(rs.getRow(),  new ArrayList<>(Arrays.asList(rs.getString("PersonID"), rs.getString("Name"), rs.getString("Birthyear"))));
         }
         return result;
     }

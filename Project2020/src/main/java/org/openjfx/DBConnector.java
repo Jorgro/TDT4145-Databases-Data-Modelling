@@ -10,6 +10,7 @@ public class DBConnector {
     int pjusValue;
     public DBConnector () {
     }
+
     public void connect() {
         try {
             // Class.forName("com.mysql.jdbc.Driver").newInstance();
