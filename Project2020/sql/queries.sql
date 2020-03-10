@@ -42,7 +42,6 @@ INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (9, 1, 'Producer');
 
 # Finne antall i én sjanger for et selskap
 # Crazy function
-SELECT count(*) FROM categoryInTitle cIT2 JOIN companyTitle cT on cIT2.TitleID = cT.TitleID
 WHERE (cT.CompanyID IN
        (SELECT c.CompanyID FROM company c INNER JOIN companyTitle T on c.CompanyID = T.CompanyID
         WHERE c.Name = 'HBO') ) AND CategoryID  IN

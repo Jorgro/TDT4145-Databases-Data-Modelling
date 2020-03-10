@@ -39,7 +39,7 @@ CREATE TABLE category
 CREATE TABLE user
 (
     UserID INT NOT NULL AUTO_INCREMENT,
-    Username VARCHAR(32),
+    Username VARCHAR(32) UNIQUE ,
     Password VARCHAR(100),
     Email VARCHAR(100),
     PRIMARY KEY (UserID)
