@@ -40,11 +40,11 @@ public class DBConnector {
 
 
 
-    public void linkActorTitle(int TitleID, int ActorID, String Role) throws SQLException{
+    public void linkActorTitle(int TitleID, int PersonID, String Role) throws SQLException{
         PreparedStatement prep = conn.prepareStatement(
                 "INSERT INTO personTitle (TitleID, PersonID, Role, Actor) VALUES (?,?,?,?);");
         prep.setInt(1, TitleID);
-        prep.setInt(2, ActorID);
+        prep.setInt(2, PersonID);
         prep.setString(3, Role);
         prep.setBoolean(4, true);
         prep.executeUpdate();
@@ -52,14 +52,14 @@ public class DBConnector {
 
 
 
-    public List<String> getMoviesByActorID(int personID) throws SQLException {
+    public List<String> getMoviesByActorID(int PersonID) throws SQLException {
         List<String> result = new ArrayList<>();
         PreparedStatement prep = conn.prepareStatement(
                 "SELECT DISTINCT t.Name " +
                     "FROM personTitle INNER JOIN title t on personTitle.TitleID = t.TitleID " +
                     "WHERE Actor = TRUE AND PersonID = ?"
         );
-        prep.setInt(1, personID);
+        prep.setInt(1, PersonID);
         ResultSet rs = prep.executeQuery();
         while (rs.next()){
             result.add(rs.getString("Name"));

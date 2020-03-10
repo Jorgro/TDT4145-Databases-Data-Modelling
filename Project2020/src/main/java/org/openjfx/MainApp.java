@@ -1,6 +1,6 @@
 package org.openjfx;
 
-public class NewMain {
+public class MainApp {
 
     public static void main(String[] args) {
         App.main(args);

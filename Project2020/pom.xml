@@ -54,7 +54,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.openjfx.NewMain</mainClass>
+                            <mainClass>org.openjfx.MainApp</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
