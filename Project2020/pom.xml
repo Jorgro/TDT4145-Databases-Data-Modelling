@@ -54,7 +54,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.openjfx.DBConnector</mainClass>
+                            <mainClass>org.openjfx.NewMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

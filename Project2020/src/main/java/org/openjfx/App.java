@@ -70,12 +70,12 @@ public class App extends Application {
         Pane root = new Pane();
 
 
-        File file = new File("src/main/java/org/openjfx/ricardo.mp4");
-        Media media = new Media(file.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        //File file = new File("src/main/java/org/openjfx/ricardo.mp4");
+        // Media media = new Media(file.toURI().toString());
+        // MediaPlayer mediaPlayer = new MediaPlayer(media);
 
         // MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/Users/jorgenr/TDT4145/Project2020/src/main/java/org/openjfx/ricardo.mp4").toExternalForm()));
-        MediaView mediaView = new MediaView(mediaPlayer);
+        // MediaView mediaView = new MediaView(mediaPlayer);
 
         // Create flashing text:
         Text text = createText();
@@ -88,10 +88,10 @@ public class App extends Application {
         textField.setLayoutX(0);
         textField.setLayoutY(height/2);
 
-        root.getChildren().add( mediaView);
+        // root.getChildren().add( mediaView);
         root.getChildren().add(text);
         root.getChildren().add(textField);
-        mediaPlayer.setCycleCount(10000);
+        // mediaPlayer.setCycleCount(10000);
 
         Scene scene = new Scene(root, width, height);
 
@@ -99,7 +99,7 @@ public class App extends Application {
         stage.show();
 
 
-        mediaPlayer.play();
+        // mediaPlayer.play();
         // scene = new Scene(loadFXML("primary"));
         // stage.setScene(scene);
        // stage.show();
