@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CategoryController extends DBConnector {
+public class CategoryCtrl extends DBConnector {
 
     public int insertCategory(String name) throws SQLException {
         PreparedStatement prep = conn.prepareStatement("INSERT INTO category (Name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);

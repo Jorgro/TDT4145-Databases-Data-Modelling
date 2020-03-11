@@ -4,7 +4,7 @@ import java.sql.*;
 
 import java.util.Scanner;
 
-public class ReviewController extends DBConnector {
+public class ReviewCtrl extends DBConnector {
 
     private PreparedStatement reviewStatement;
 
@@ -139,7 +139,7 @@ public class ReviewController extends DBConnector {
 
     public static void main(String[] args) {
 
-        ReviewController c = new ReviewController();
+        ReviewCtrl c = new ReviewCtrl();
         c.connect();
         try {
             c.registerReview();

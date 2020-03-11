@@ -23,6 +23,7 @@ SELECT SeriesID FROM episodeInSeries )
 GROUP BY cat2.CategoryID, c2.CompanyID
 );
 
+SELECT * FROM company;
 SELECT * FROM `categoryInTitle`;
 
 INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (6, 1, 'Producer');
