@@ -3,10 +3,7 @@ package org.openjfx;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MovieController extends DBConnector {
     public List<String> getMoviesByActorID(int actorID) throws SQLException {
@@ -42,6 +39,57 @@ public class MovieController extends DBConnector {
             result.get(actor).add(title);
         }
         return result;
+    }
+
+    public String getAnswer(String question){
+        System.out.println(question);
+        Scanner scanner = new Scanner(System.in);
+        String answer = "0";
+        if (scanner.hasNext()){
+            answer = scanner.next();
+        }
+        return answer;
+    }
+
+    public List<String> getMoviesStarringActor() throws SQLException {
+        int answer = Integer.parseInt(getAnswer("How do you want to identify the actor?\nSelect 1 for ID and 2 for name"));
+        int personID = 0;
+        String name = null;
+        List<String> movies = null;
+        switch (answer) {
+            case 1: personID = Integer.parseInt(getAnswer("ID:"));
+            break;
+            case 2: name = getAnswer("Name:");
+            break;
+            default: throw new UnsupportedOperationException(answer + " is not supported");
+        }
+        if (personID != 0){
+            movies = getMoviesByActorID(personID);
+        }
+
+        if (name != null) {
+            Map<String, List<String>> potentialActors = getMoviesByActorName(name);
+            int forloopcounter = 0;
+            for (List<String> a : potentialActors.values()) {
+                forloopcounter++;
+                System.out.println("[" + forloopcounter + "]: " + a);
+            }
+            int selectedActor = Integer.parseInt(getAnswer("Which of these did you mean?"));
+
+        }
+        return movies;
+    }
+
+    public static void main(String[] args){
+        MovieController mc = new MovieController();
+        mc.connect();
+        try{
+            List<String> movies = mc.getMoviesStarringActor();
+            System.out.println(movies);
+        } catch (SQLException e){
+            System.out.println(e);
+        }
+
     }
 
 
