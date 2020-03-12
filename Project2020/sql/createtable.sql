@@ -25,7 +25,7 @@ CREATE TABLE company
     CompanyID INT NOT NULL AUTO_INCREMENT,
     URL VARCHAR(64),
     Country VARCHAR(32),
-    Name VARCHAR (32),
+    Name VARCHAR (32) UNIQUE ,
     PRIMARY KEY (CompanyID)
 );
 
