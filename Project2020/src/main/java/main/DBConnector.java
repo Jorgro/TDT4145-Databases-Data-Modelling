@@ -7,9 +7,6 @@ public class DBConnector {
 
     protected Connection conn;
 
-    public DBConnector () {
-    }
-
     public void connect() {
         try {
             // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -42,7 +39,7 @@ public class DBConnector {
         DBConnector db1 = new DBConnector();
         db1.connect();
         try {
-
+            System.out.println("hello");
 //            System.out.println(db1.insertCategory("Hello world"));
 //            System.out.println(db1.insertMovie("The Kingsroad", "S1E2, walk on road", 1, 2011, 2011));
 //            db1.linkActorTitle(5, 1, "Jon Snow");
