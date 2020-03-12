@@ -1,4 +1,4 @@
-package org.openjfx;
+package main;
 
 import java.sql.*;
 import java.util.*;

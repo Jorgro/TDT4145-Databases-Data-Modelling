@@ -1,4 +1,4 @@
-package org.openjfx;
+package main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
