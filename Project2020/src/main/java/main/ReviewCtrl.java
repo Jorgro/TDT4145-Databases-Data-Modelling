@@ -102,7 +102,7 @@ public class ReviewCtrl extends DBConnector {
         int max = 0;
         while (rs.next()){
             System.out.println(rs.getInt(1)+ ": " + rs.getString(2) + ", " + rs.getInt(3));
-            max = rs.getRow();
+            max = rs.getInt(1);
         }
         return max;
 

@@ -201,6 +201,7 @@ public class PersonCtrl extends DBConnector {
                 System.out.println("No actors by that name.");
             }
         }
+        System.out.println(movies);
         return movies;
     }
 
