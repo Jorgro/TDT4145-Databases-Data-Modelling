@@ -128,9 +128,6 @@ public class ReviewCtrl extends DBConnector {
 
 
         updateReview(titleID, userID, review, rating);
-
-
-
     }
 
 

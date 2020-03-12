@@ -5,8 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class NewTitleCtrl extends DBConnector {
-
+public class TitleCtrl extends DBConnector {
 
     private PreparedStatement titleStatement;
     private int TitleID;
@@ -31,24 +30,19 @@ public class NewTitleCtrl extends DBConnector {
         ResultSet rs = titleStatement.getGeneratedKeys();
 
         if (rs.next()){
-           this.TitleID = rs.getInt(1);
+            this.TitleID = rs.getInt(1);
         }
         else this.TitleID = -1;
     }
 
 
-
-
-    public static void main(String[] args) {
-        NewTitleCtrl ctrl = new NewTitleCtrl();
-        ctrl.connect();
-        try {
-            ctrl.startReg();
-            ctrl.insertMovie("Lord Snow", "Jon is at the Nightswatch", 1, 2011, 2011);
-            ctrl.linkActorTitle(ctrl.TitleID, 1, "Jon Snow");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void linkActorTitle(int TitleID, int PersonID, String Role) throws SQLException {
+        PreparedStatement prep = conn.prepareStatement(
+                "INSERT INTO personTitle (TitleID, PersonID, Role, Actor) VALUES (?,?,?,?);");
+        prep.setInt(1, TitleID);
+        prep.setInt(2, PersonID);
+        prep.setString(3, Role);
+        prep.setBoolean(4, true);
+        prep.executeUpdate();
     }
 }
