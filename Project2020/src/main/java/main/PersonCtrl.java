@@ -51,6 +51,21 @@ public class PersonCtrl extends DBConnector {
         return result;
     }
 
+    public HashMap<Integer, List<String>> getPersonByName(String name) throws SQLException{
+        HashMap<Integer, List<String>> result = new HashMap<>();
+        PreparedStatement prep = conn.prepareStatement(
+                "SELECT DISTINCT p.PersonID, Name, Birthyear " +
+                        "FROM person p INNER JOIN personTitle pT on p.PersonID = pT.PersonID " +
+                        "WHERE p.Name LIKE ?");
+        name = "%" + name + "%";
+        prep.setString(1, name);
+        ResultSet rs = prep.executeQuery();
+        while (rs.next()){
+            result.put(rs.getRow(),  new ArrayList<>(Arrays.asList(rs.getString("PersonID"), rs.getString("Name"), rs.getString("Birthyear"))));
+        }
+        return result;
+    }
+
     private boolean testInteger(String s, int max){
         try {
             int i = Integer.parseInt(s);

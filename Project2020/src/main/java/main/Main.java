@@ -2,6 +2,7 @@ package main;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,16 +66,16 @@ public class Main {
 
         System.out.println("Type in publishyear: ");
         s = scanner.nextLine();
-        while (!testInteger(s, Integer.MAX_VALUE)){
-            System.out.println("Value must be a positive integer, try again: ");
+        while (!testInteger(s, 2020)){
+            System.out.println("Illegal year, try again: ");
             s = scanner.nextLine().strip();
         }
         int publishyear = Integer.parseInt(s);
 
         System.out.println("Type in launchyear: ");
         s = scanner.nextLine();
-        while (!testInteger(s, Integer.MAX_VALUE)){
-            System.out.println("Value must be a positive integer, try again: ");
+        while (!testInteger(s, 2020)){
+            System.out.println("Illegal year, try again: ");
             s = scanner.nextLine().strip();
         }
         int launchyear = Integer.parseInt(s);
@@ -94,20 +95,46 @@ public class Main {
 
     public int addPerson() throws SQLException{
 
-        System.out.println("Name: ");
-        String name = scanner.nextLine().strip();
-
-        System.out.println("Birthyear: ");
+        System.out.println("Type in the name of the person: ");
         String s = scanner.nextLine();
-        while (!testInteger(s, 2020)){
-            System.out.println("Enter a valid year: ");
-            s = scanner.nextLine().strip();
-        }
-        int birthyear = Integer.parseInt(s);
-        System.out.println("Country: ");
-        String country = scanner.nextLine().strip();
+        HashMap<Integer, List<String>> list = personCtrl.getPersonByName(s);
 
-        return personCtrl.insertPerson(name, birthyear, country);
+        if (list.isEmpty()) {
+            System.out.println("Inserting new person " + s +" to database: ");
+            String name = s;
+
+            System.out.println("Birthyear: ");
+            s = scanner.nextLine();
+            while (!testInteger(s, 2020)){
+                System.out.println("Enter a valid year: ");
+                s = scanner.nextLine().strip();
+            }
+            int birthyear = Integer.parseInt(s);
+            System.out.println("Country: ");
+            String country = scanner.nextLine().strip();
+
+            return personCtrl.insertPerson(name, birthyear, country);
+        }
+        else if (list.size() == 1){
+            return Integer.parseInt(list.get(1).get(0));
+            //System.out.println("Roles for " + list.get(1).get(1) + ": " + personCtrl.getActorRolesById(Integer.parseInt(list.get(1).get(0))));
+        }
+
+        else{
+            list.forEach((key, value) -> System.out.println(key + ": "+ value.get(1) + ", " + value.get(2)));
+            System.out.println("There appears to be multiple matches. Please enter the number of the wanted person: ");
+            s = scanner.nextLine();
+            while (!testInteger(s, list.size())){
+                System.out.println("Invalid entry, please enter a number between 1 and " + list.size());
+                s = scanner.nextLine();
+            }
+            int key = Integer.parseInt(s);
+            
+            return Integer.parseInt(list.get(key).get(0));
+            // System.out.println("Roles for " + list.get(key).get(1) + ": " + getActorRolesById(personID));
+        }
+
+        
 
 
     }
@@ -264,6 +291,7 @@ public class Main {
             List<Integer> scorePersonsIDs = new ArrayList<>();
             List<String> scoreRoles = new ArrayList<>();
             System.out.println("Do you want to add a person to this score? (y/n)");
+            s = scanner.nextLine().strip();
             while (s.toLowerCase().equals("y")) {
                 scorePersonsIDs.add(addPerson());
                 System.out.println("Role: ");
