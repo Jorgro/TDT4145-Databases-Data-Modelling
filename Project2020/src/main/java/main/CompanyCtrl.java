@@ -80,11 +80,21 @@ public class CompanyCtrl extends DBConnector {
         prep.setString(3, name);
         int updatedColumns = prep.executeUpdate();
         ResultSet rs = prep.getGeneratedKeys();
-        System.out.println("oki");
+
         if (rs.next()){
             return rs.getInt(1);
         }
         return -1;
+    }
+
+    public void linkCompanyTitle(int companyID, int titleID, String role) throws SQLException{
+        PreparedStatement prep = conn.prepareStatement("INSERT INTO companyTitle (titleid, companyid, role) VALUES (?, ?, ?);");
+        prep.setInt(1, titleID);
+        prep.setInt(2, companyID);
+        prep.setString(3, role);
+        int updatedColumns = prep.executeUpdate();
+        ResultSet rs = prep.getGeneratedKeys();
+
     }
 
     public List<Company> getCompanies() throws SQLException {
@@ -102,7 +112,7 @@ public class CompanyCtrl extends DBConnector {
         c.connect();
         try {
             System.out.println(c.getCompaniesWithMostMoviesInCategory());
-            // System.out.println(c.insertCompany("Pornhub", "www.pornhub.com", "USA"));
+
             System.out.println(c.getCompanies());
         } catch (Exception e) {
             System.out.println(e); }
