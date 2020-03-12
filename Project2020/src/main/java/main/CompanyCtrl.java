@@ -73,13 +73,34 @@ public class CompanyCtrl extends DBConnector {
         return result;
     }
 
-    public int insertCompany(String name, String url, String country) throws SQLException {
+    public int insertCompany(String name, String url, String country) {
+        try {
         PreparedStatement prep = conn.prepareStatement("INSERT INTO company (URL, Country, Name) VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         prep.setString(1, url);
         prep.setString(2, country);
         prep.setString(3, name);
         int updatedColumns = prep.executeUpdate();
         ResultSet rs = prep.getGeneratedKeys();
+
+        if (rs.next()){
+            return rs.getInt(1);
+        }
+        return -1;}
+        catch (SQLException e){
+                try {
+                    return getID(name);
+                }
+                catch (SQLException ex){
+                    System.out.println("Something went wrong");
+                    return -1;
+                }
+
+        }
+    }
+    private int getID(String name) throws SQLException{
+        PreparedStatement prep = conn.prepareStatement("SELECT CompanyID from company where Name = ?");
+        prep.setString(1, name);
+        ResultSet rs = prep.executeQuery();
 
         if (rs.next()){
             return rs.getInt(1);
@@ -93,8 +114,6 @@ public class CompanyCtrl extends DBConnector {
         prep.setInt(2, companyID);
         prep.setString(3, role);
         int updatedColumns = prep.executeUpdate();
-        ResultSet rs = prep.getGeneratedKeys();
-
     }
 
     public List<Company> getCompanies() throws SQLException {

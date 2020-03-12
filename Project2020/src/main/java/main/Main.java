@@ -84,6 +84,13 @@ public class Main {
 
     }
 
+    public int addScore() throws SQLException {
+        System.out.println("Title: ");
+        String title = scanner.nextLine().strip();
+
+        return scoreCtrl.insertScore(title);
+    }
+
 
 
     public int addPerson() throws SQLException{
@@ -146,6 +153,23 @@ public class Main {
             }
         }
     }
+
+    public void linkScorePerson(int scoreID, List<Integer> personIDs, List<String> scoreRoles) throws SQLException{
+        for (int i = 0; i < personIDs.size(); i++){
+            if (personIDs.get(i) >= 0){
+                scoreCtrl.linkPersonScore(personIDs.get(i), scoreID, scoreRoles.get(i));
+            }
+        }
+    }
+
+    public void linkScoreTitle(int titleID, List<Integer> scoreIDs) throws SQLException{
+        for (int i = 0; i < scoreIDs.size(); i++){
+            if (scoreIDs.get(i) >= 0){
+                scoreCtrl.linkScoreTitle(scoreIDs.get(i), titleID);
+            }
+        }
+    }
+    
 
 
     public void addTitleWithMore() throws SQLException {
@@ -230,17 +254,40 @@ public class Main {
 
         linkCompanyTitle(titleID, companyIDs, comRoles);
 
+        System.out.println("Do you want to add a score? (y/n)");
+        s = scanner.nextLine().strip();
+        List<Integer> scoreIDs = new ArrayList<>();
+        int scoreID;
+        while (s.toLowerCase().equals("y")){
+            scoreID = addScore();
+            scoreIDs.add(scoreID);
 
+            List<Integer> scorePersonsIDs = new ArrayList<>();
+            List<String> scoreRoles = new ArrayList<>();
+            System.out.println("Do you want to add a person to this score? (y/n)");
+            while (s.toLowerCase().equals("y")) {
+                scorePersonsIDs.add(addPerson());
+                System.out.println("Role: ");
+                String scoreRole = scanner.nextLine().strip();
+                scoreRoles.add(scoreRole);
 
+                System.out.println("Do you want to add another person to this score? (y/n)");
+                s = scanner.nextLine().strip();
+            }
 
+            if (scoreID >= 0) {
+                linkScorePerson(scoreID, scorePersonsIDs, scoreRoles);
+            }
+
+            System.out.println("Do you want to add another score? (y/n)");
+            s = scanner.nextLine().strip();
+        }
+
+        linkScoreTitle(titleID, scoreIDs);
+
+        System.out.println("Everything worked!");
 
     }
-
-
-
-
-
-
     public void run() throws SQLException {
 
 
@@ -269,9 +316,6 @@ public class Main {
                 case 4: // Insert new movie
                     addTitleWithMore();
                     break;
-
-
-
                 case 5: // Insert review
                     reviewCtrl.registerReview();
                     break;
@@ -296,7 +340,8 @@ public class Main {
             main.run();
         }
         catch (SQLException e){
-            System.out.println("There is a problem with SQL");
+            e.printStackTrace();
+            System.out.println("There is a problem with SQL.");
         }
 
     }
