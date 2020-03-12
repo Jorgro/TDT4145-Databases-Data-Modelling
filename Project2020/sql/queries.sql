@@ -49,3 +49,7 @@ INSERT INTO companyTitle (TitleID, CompanyID, Role) VALUES (12, 1, 'Producer');
 #         WHERE c.Name = 'HBO') ) AND CategoryID  IN
 #                                     (SELECT cat.CategoryID FROM category cat NATURAL JOIN categoryInTitle cIT
 #                                      WHERE cat.Name = 'Drama');
+
+
+
+SELECT CategoryID from category where Name = 'Drama'

@@ -23,7 +23,7 @@ public class PersonCtrl extends DBConnector {
         prep.setString(3, country);
         int updatedColumns = prep.executeUpdate();
         ResultSet rs = prep.getGeneratedKeys();
-        System.out.println("oki");
+
         if (rs.next()){
             return rs.getInt(1);
         }

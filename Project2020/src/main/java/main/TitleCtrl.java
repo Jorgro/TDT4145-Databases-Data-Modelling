@@ -28,8 +28,9 @@ public class TitleCtrl extends DBConnector {
      * @param launchYear
      * @throws SQLException
      */
-    public void insertMovie(String name, String content, int duration, int publishYear, int launchYear) throws SQLException {
-
+    public int insertTitle(String name, String content, int duration, int publishYear, int launchYear) throws SQLException {
+        titleStatement = conn.prepareStatement(
+                "INSERT INTO title (Name, Content, Duration, PublishYear, LaunchYear) VALUES (?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         titleStatement.setString(1, name);
         titleStatement.setString(2, content);
         titleStatement.setInt(3, duration);
@@ -40,8 +41,10 @@ public class TitleCtrl extends DBConnector {
 
         if (rs.next()){
             this.TitleID = rs.getInt(1);
+            return rs.getInt(1);
         }
-        else this.TitleID = -1;
+        else {this.TitleID = -1;
+        return -1;}
     }
 
     /**
@@ -73,4 +76,7 @@ public class TitleCtrl extends DBConnector {
         prep.setInt(2, categoryID);
         prep.executeUpdate();
     }
+
+
+
 }
