@@ -8,6 +8,14 @@ import java.util.*;
 
 public class PersonCtrl extends DBConnector {
 
+    /**
+     * Part of usecase 4: Inserts a person in the database.
+     * @param name
+     * @param birthYear
+     * @param country
+     * @return Primary key of the inserted person
+     * @throws SQLException
+     */
     public int insertPerson(String name, int birthYear, String country) throws SQLException {
         PreparedStatement prep = conn.prepareStatement("INSERT INTO person (Name, Birthyear, Country) VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         prep.setString(1, name);
@@ -22,9 +30,18 @@ public class PersonCtrl extends DBConnector {
         return -1;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws SQLException
+     */
     public HashMap<Integer, List<String>> getActorByName(String name) throws SQLException{
         HashMap<Integer, List<String>> result = new HashMap<>();
-        PreparedStatement prep = conn.prepareStatement("SELECT * FROM person p WHERE p.Name LIKE ?");
+        PreparedStatement prep = conn.prepareStatement(
+                "SELECT DISTINCT p.PersonID, Name, Birthyear " +
+                    "FROM person p INNER JOIN personTitle pT on p.PersonID = pT.PersonID " +
+                    "WHERE p.Name LIKE ? AND pT.Actor = TRUE");
         name = "%" + name + "%";
         prep.setString(1, name);
         ResultSet rs = prep.executeQuery();
@@ -81,8 +98,18 @@ public class PersonCtrl extends DBConnector {
         return result;
     }
 
+    /**
+     * Part of usecase 1, by using personID
+     * @param personID
+     * @return List of roles for a given actor
+     * @throws SQLException
+     */
     public List<String> getActorRolesById(int personID) throws SQLException {
-        PreparedStatement prep = conn.prepareStatement("SELECT Role FROM personTitle WHERE PersonID = ?");
+        PreparedStatement prep = conn.prepareStatement(
+                "SELECT Role " +
+                        "FROM personTitle INNER JOIN person p on personTitle.PersonID = p.PersonID " +
+                        "WHERE p.PersonID = ? " +
+                            "AND Actor = TRUE");
         prep.setInt(1, personID);
         ResultSet rs = prep.executeQuery();
         List<String> result = new ArrayList<>();
@@ -94,9 +121,15 @@ public class PersonCtrl extends DBConnector {
         return result;
     }
 
+    /**
+     * Part of usecase 1, by using actor name
+     * @param name
+     * @return Map consisting of all actors with a matching name, and a list of roles for all the actors.
+     * @throws SQLException
+     */
     public Map<String, List<String>> getActorRolesByName(String name) throws SQLException {
         PreparedStatement prep = conn.prepareStatement(
-                "SELECT Role, Name " +
+                "SELECT DISTINCT Role, Name " +
                         "FROM personTitle INNER JOIN person ON personTitle.PersonID = person.PersonID " +
                         "WHERE Actor = TRUE AND Name LIKE ?");
         prep.setString(1, "%" + name + "%");
@@ -116,7 +149,7 @@ public class PersonCtrl extends DBConnector {
         return result;
     }
 
-    public String getAnswer(String question){
+    private String getAnswer(String question){
         System.out.println(question);
         Scanner scanner = new Scanner(System.in);
         String answer = "0";
@@ -126,6 +159,11 @@ public class PersonCtrl extends DBConnector {
         return answer;
     }
 
+    /**
+     * Usecase 2, by ID or actor name
+     * @return
+     * @throws SQLException
+     */
     public List<String> getMoviesStarringActor() throws SQLException {
         int answer = Integer.parseInt(getAnswer("How do you want to identify the actor?\nSelect 1 for ID and 2 for name"));
         int personID = 0;
@@ -169,6 +207,10 @@ public class PersonCtrl extends DBConnector {
     Scanner scanner = new Scanner(System.in);
 
 
+    /**
+     * Usecase 1, by actor name. Prints the result.
+     * @throws SQLException
+     */
     public void searchForRoles() throws SQLException{
         System.out.println("Enter the name of a person you want to find roles for: ");
         String s = scanner.nextLine();
@@ -195,13 +237,12 @@ public class PersonCtrl extends DBConnector {
         }
     }
 
-
     public static void main(String[] args) {
         PersonCtrl pc = new PersonCtrl();
         pc.connect();
         try {
             System.out.println(pc.getMoviesStarringActor());
-
+            pc.searchForRoles();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

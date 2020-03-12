@@ -19,6 +19,15 @@ public class TitleCtrl extends DBConnector {
         }
     }
 
+    /**
+     * Part of usecase 4, insert title
+     * @param name
+     * @param content
+     * @param duration
+     * @param publishYear
+     * @param launchYear
+     * @throws SQLException
+     */
     public void insertMovie(String name, String content, int duration, int publishYear, int launchYear) throws SQLException {
 
         titleStatement.setString(1, name);
@@ -35,14 +44,33 @@ public class TitleCtrl extends DBConnector {
         else this.TitleID = -1;
     }
 
-
-    public void linkActorTitle(int TitleID, int PersonID, String Role) throws SQLException {
+    /**
+     * Part of usecase 4, link person to a given title.
+     * @param TitleID
+     * @param PersonID
+     * @param Role
+     * @throws SQLException
+     */
+    public void linkPersonTitle(int TitleID, int PersonID, String Role, boolean actor) throws SQLException {
         PreparedStatement prep = conn.prepareStatement(
                 "INSERT INTO personTitle (TitleID, PersonID, Role, Actor) VALUES (?,?,?,?);");
         prep.setInt(1, TitleID);
         prep.setInt(2, PersonID);
         prep.setString(3, Role);
-        prep.setBoolean(4, true);
+        prep.setBoolean(4, actor);
+        prep.executeUpdate();
+    }
+
+    /**
+     * Part of usecase 4, link category to a given title.
+     * @param titleID
+     * @param categoryID
+     * @throws SQLException
+     */
+    public void linkCategoryTitle(int titleID, int categoryID) throws SQLException {
+        PreparedStatement prep = conn.prepareStatement("INSERT INTO categoryInTitle (TitleID, CategoryID) VALUES (?, ?);");
+        prep.setInt(1, titleID);
+        prep.setInt(2, categoryID);
         prep.executeUpdate();
     }
 }

@@ -10,6 +10,13 @@ public class ReviewCtrl extends DBConnector {
 
     public Scanner scanner = new Scanner(System.in);
 
+    /**
+     *
+     * @param titleID
+     * @param userID
+     * @param review
+     * @param rating
+     */
     public void alterReview(int titleID, int userID, String review, int rating) {
         try {
             PreparedStatement alter = conn.prepareStatement("UPDATE reviewOfTitle SET Review = ? WHERE TitleID = ? AND UserID = ?");
@@ -29,7 +36,16 @@ public class ReviewCtrl extends DBConnector {
 
         }
     }
-    public int updateReview(int titleID, int userID, String review, int rating ){
+
+    /**
+     * Usecase 4
+     * @param titleID
+     * @param userID
+     * @param review
+     * @param rating
+     * @return ID of inserted review.
+     */
+    public int insertReview(int titleID, int userID, String review, int rating ){
         try {
             reviewStatement = conn.prepareStatement("INSERT INTO reviewOfTitle (TitleID, UserID, Review, Rating) VALUES ( ?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
         } catch (Exception e) {
@@ -65,8 +81,6 @@ public class ReviewCtrl extends DBConnector {
 
     public int getUserId(String username)  {
         try {
-
-
             PreparedStatement userStatement = conn.prepareStatement("SELECT UserID FROM user WHERE ? = Username");
             userStatement.setString(1, username);
             ResultSet rs = userStatement.executeQuery();
@@ -94,6 +108,10 @@ public class ReviewCtrl extends DBConnector {
 
     }
 
+    /**
+     * Console method for inserting review.
+     * @throws SQLException
+     */
     public void registerReview() throws SQLException{
         System.out.println("Please enter username: ");
         String s = scanner.nextLine();
@@ -127,7 +145,7 @@ public class ReviewCtrl extends DBConnector {
         int rating = Integer.parseInt(s);
 
 
-        updateReview(titleID, userID, review, rating);
+        insertReview(titleID, userID, review, rating);
     }
 
 

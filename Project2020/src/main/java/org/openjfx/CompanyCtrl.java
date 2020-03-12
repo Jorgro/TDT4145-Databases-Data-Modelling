@@ -40,7 +40,11 @@ public class CompanyCtrl extends DBConnector {
     }
 
 
-
+    /**
+     * Usecase 3
+     * @return Map with key genre and list of CompanyCounts (several companies in case of ties)
+     * @throws SQLException
+     */
     public Map<String, List<CompanyCount>> getCompaniesWithMostMoviesInCategory() throws SQLException {
         Map<String, List<CompanyCount>> result = new HashMap<>();
         PreparedStatement prep = conn.prepareStatement(
